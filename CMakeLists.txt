@@ -27,7 +27,6 @@ message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 include_directories(Includes)
 include_directories(Libraries)
 include_directories(Libraries/doctest/doctest)
-include_directories(Libraries/llvm-project/llvm/include)
 
 # Compile options
 include(CMake/CompileOptions.cmake)
