@@ -10,7 +10,7 @@ class Factor;
 class BinaryOp;
 class WithDecl;
 
-//! Class for u sing visitor pattern
+//! Class for using visitor pattern
 class ASTVisitor
 {
 public:
@@ -21,6 +21,7 @@ public:
     virtual void visit(Expr&)
     {
     };
+
     virtual void visit(Factor&) = 0;
     virtual void visit(BinaryOp&) = 0;
     virtual void visit(WithDecl&) = 0;
@@ -78,6 +79,44 @@ private:
     llvm::StringRef m_val;
 };
 
+class BinaryOp : public Expr
+{
+public:
+    enum Operator { Plus, Minus, Mul, Div };
+
+    BinaryOp(Operator op, Expr* left, Expr* right)
+        : m_op(op),
+          m_left(left),
+          m_right(right)
+    {
+    }
+
+    [[nodiscard]] Expr* getLeft() const
+    {
+        return m_left;
+    }
+
+    [[nodiscard]] Expr* getRight() const
+    {
+        return m_right;
+    }
+
+    [[nodiscard]] Operator getOperator() const
+    {
+        return m_op;
+    }
+
+    void accept(ASTVisitor& visitor) override
+    {
+        visitor.visit(*this);
+    }
+
+private:
+    Operator m_op;
+    Expr* m_left;
+    Expr* m_right;
+};
+
 //! Stores declared variables and the expression
 class WithDecl : public AST
 {
@@ -107,7 +146,7 @@ public:
         return m_expr;
     }
 
-    virtual void accept(ASTVisitor& value) override
+    void accept(ASTVisitor& value) override
     {
         value.visit(*this);
     }

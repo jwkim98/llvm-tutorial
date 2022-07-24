@@ -29,9 +29,7 @@ llvm::StringRef Token::getText() const
 void Lexer::next(Token& token)
 {
     while (*m_bufferPtr && charinfo::isWhitespace(*m_bufferPtr))
-    {
         ++m_bufferPtr;
-    }
 
     if (!*m_bufferPtr)
     {
@@ -44,8 +42,10 @@ void Lexer::next(Token& token)
         const char* end = m_bufferPtr + 1;
         while (charinfo::isLetter(*end))
             ++end;
-        llvm::StringRef name(m_bufferPtr, end - m_bufferPtr);
-        Token::TokenKind kind = name == "with" ? Token::KW_with : Token::ident;
+        const llvm::StringRef name(m_bufferPtr, end - m_bufferPtr);
+        const Token::TokenKind kind = name == "with"
+                                          ? Token::KW_with
+                                          : Token::ident;
         formToken(token, end, kind);
     }
     else if (charinfo::isDigit(*m_bufferPtr))
@@ -53,7 +53,6 @@ void Lexer::next(Token& token)
         const char* end = m_bufferPtr + 1;
         while (charinfo::isDigit(*end))
             ++end;
-        llvm::StringRef name(m_bufferPtr, end - m_bufferPtr);
         formToken(token, end, Token::number);
     }
     else

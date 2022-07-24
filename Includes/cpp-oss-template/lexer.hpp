@@ -11,6 +11,7 @@ class Token
 {
     friend class Lexer;
 public:
+    Token() = default;
     enum TokenKind : unsigned short
     {
         eoi,
@@ -47,7 +48,7 @@ public:
     }
 
     template <typename... Ts>
-    [[nodiscard]] bool isOneOf(TokenKind kind1, TokenKind kind2, Ts ... tokens)
+    [[nodiscard]] bool isOneOf(TokenKind kind1, TokenKind kind2, Ts ... tokens) const
     {
         return is(kind1) || isOneOf(kind2, tokens...);
     }
@@ -55,7 +56,7 @@ public:
 
 private:
     //! Indicates the kind of the token
-    TokenKind m_kind;
+    TokenKind m_kind = TokenKind::unknown;
     //! Points to the start of the text of the token
     llvm::StringRef m_text;
 };
