@@ -1,6 +1,3 @@
 [submodule "Libraries/doctest"]
 	path = Libraries/doctest
 	url = https://github.com/onqtam/doctest
-[submodule "Libraries/llvm-project"]
-	path = Libraries/llvm-project
-	url = https://github.com/llvm/llvm-project.git

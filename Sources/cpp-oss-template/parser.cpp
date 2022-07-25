@@ -11,7 +11,6 @@ AST* Parser::parse()
 //! calc : ("with" ident ( "," ident)* ":")? expr;
 AST* Parser::parseCalc()
 {
-    Expr* expr;
     llvm::SmallVector<llvm::StringRef, 8> vars;
     if (m_token.is(Token::KW_with))
     {
@@ -36,7 +35,7 @@ AST* Parser::parseCalc()
             error();
     }
 
-    expr = parseExpr();
+    Expr* expr = parseExpr();
     if (vars.empty())
         return expr;
     return new WithDecl(vars, expr);

@@ -67,6 +67,7 @@ public:
     Lexer(const llvm::StringRef& buffer)
     {
         m_bufferStart = buffer.begin();
+        m_bufferPtr = m_bufferStart;
     }
 
     void next(Token& token);

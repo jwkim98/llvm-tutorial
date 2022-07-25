@@ -17,10 +17,10 @@ public:
     //! Retrieves the next token if the look-ahead is one of expected kind
     bool consume(Token::TokenKind kind)
     {
-        if (expect(kind))
-            return true;
+        if (!expect(kind))
+            return false;
         advance();
-        return false;
+        return true;
     }
 
     AST* parse();

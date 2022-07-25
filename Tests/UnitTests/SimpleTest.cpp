@@ -7,3 +7,8 @@ TEST_CASE("Simple test")
 {
     CHECK(Add(2, 3) == 5);
 }
+
+TEST_CASE("Compile test")
+{
+    CHECK(Compile() == false);
+}

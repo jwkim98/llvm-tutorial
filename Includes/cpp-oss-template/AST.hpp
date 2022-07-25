@@ -79,6 +79,7 @@ private:
     llvm::StringRef m_val;
 };
 
+//! Represents binary operation
 class BinaryOp : public Expr
 {
 public:
