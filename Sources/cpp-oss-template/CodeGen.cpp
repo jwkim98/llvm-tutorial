@@ -2,7 +2,6 @@
 #include <llvm/ADT/StringMap.h>
 #include <llvm/IR/IRBuilder.h>
 #include <llvm/IR/LLVMContext.h>
-#include <llvm/support/raw_ostream.h>
 
 
 class ToIRVisitor : public ASTVisitor
@@ -61,11 +60,18 @@ public:
                 llvm::GlobalValue::PrivateLinkage, strText,
                 llvm::Twine(var).concat(".str"));
 
+            //! GEP stands for GetElementPtr!
+            //! This generates GEP instruction, which accesses pointer and member inside it
+            //! With inbounds keyword, result value of the GEP is undefined if the address is
+            //! outside the actual underlying allocated object and not the addredss one-past-the-end.
+            //! Without inbounds keyword, there are no restrictions on computing out-of-bounds addresses.
             llvm::Value* ptr = m_builder.CreateInBoundsGEP(
                 str, { m_int32Zero, m_int32Zero }, "ptr");
             llvm::CallInst* call =
                 m_builder.CreateCall(readFunctionType, readFunction, { ptr });
+            m_nameMap[var] = call;
         }
+        node.getExpr()->accept(*this);
     }
 
 private:
